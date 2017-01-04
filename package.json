@@ -3,8 +3,12 @@
   "version": "0.0.0",
   "license": "MIT",
   "angular-cli": {},
+  "config": {
+    "port": 4200,
+    "host": "localhost"
+  },
   "scripts": {
-    "start": "ng serve -H 0.0.0.0",
+    "start": "ng serve -H $npm_package_config_host -p $npm_package_config_port",
     "lint": "tslint \"src/**/*.ts\"",
     "test": "ng test",
     "e2e": "protractor"

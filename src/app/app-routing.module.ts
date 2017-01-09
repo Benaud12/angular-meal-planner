@@ -1,11 +1,8 @@
 import { NgModule }             from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { GroupsComponent }   from './components/groups/groups.component';
+import { AppComponent }   from './app.component';
 
-const routes: Routes = [
-  { path: '', redirectTo: '/groups', pathMatch: 'full' },
-  { path: 'groups',  component: GroupsComponent }
-];
+const routes: Routes = [];
 
 @NgModule({
   imports: [ RouterModule.forRoot(routes) ],

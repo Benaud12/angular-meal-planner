@@ -5,13 +5,11 @@ import { HttpModule } from '@angular/http';
 import { AppRoutingModule } from './app-routing.module';
 
 import { AppComponent } from './app.component';
-import { GroupsComponent } from './components/groups/groups.component';
 import { HeaderComponent } from './components/header/header.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    GroupsComponent,
     HeaderComponent
   ],
   imports: [

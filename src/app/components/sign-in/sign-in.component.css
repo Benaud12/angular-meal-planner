@@ -1,0 +1,21 @@
+h2 {
+  margin: 0.3em 0;
+  font-size: 2em;
+}
+
+button {
+  width: 80%;
+  margin: 0.5em 1em 0.5em 1em;
+  border: none;
+  border-radius: 0.4em;
+  height: 50px;
+  font-size: 1.5em;
+}
+
+button.login {
+  background-color: green;
+}
+
+button.sign-in {
+  background-color: blue;
+}

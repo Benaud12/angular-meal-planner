@@ -20,4 +20,8 @@ export class BrowserHelper {
   waitForElementToBeVisible(elementFinder) {
     return this.defaultWait(ExpectedConditions.visibilityOf(elementFinder));
   }
+
+  waitForElementToBeInvisible(elementFinder) {
+    return this.defaultWait(ExpectedConditions.invisibilityOf(elementFinder));
+  }
 }

@@ -5,4 +5,12 @@ let expect = chai.expect;
 module.exports = function () {
 
   let page: MealPlannerPage = new MealPlannerPage();
+
+  this.Given(/^an anonymous user$/, () => {
+    return;
+  });
+
+  this.Then(/^I should see the (.*) button$/, (buttonName) => {
+    return expect(page.isButtonVisible(buttonName)).to.eventually.equal(true);
+  });
 }

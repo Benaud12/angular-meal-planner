@@ -1,0 +1,7 @@
+<div class="input-container" [ngClass]="{'active': isActive(), 'inactive': !isActive()}">
+<input *ngFor="let item of inputElements"
+  name="{{ item.name }}"
+  placeholder="{{ item.placeholder }}"
+  type="{{ item.type }}">
+</div>
+<button (click)="buttonCallback.emit()" [ngStyle]="{'background-color': buttonColor}">{{ buttonText }}</button>

@@ -1,10 +1,11 @@
 import { NgModule }             from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { GroupsComponent }   from './components/groups/groups.component';
+
+import { SignInComponent } from './components/sign-in/sign-in.component';
 
 const routes: Routes = [
-  { path: '', redirectTo: '/groups', pathMatch: 'full' },
-  { path: 'groups',  component: GroupsComponent }
+  { path: '', redirectTo: '/sign-in', pathMatch: 'full' },
+  { path: 'sign-in',  component: SignInComponent }
 ];
 
 @NgModule({

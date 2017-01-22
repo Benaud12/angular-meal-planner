@@ -1,7 +1,11 @@
-import { browser, element, by } from 'protractor';
+import { BrowserHelper } from '../util/browser.helper'
+import { element, by } from 'protractor';
 
 export class MealPlannerPage {
-  getParagraphText() {
-    return element(by.css('app-root h1')).getText();
+  browserHelper: BrowserHelper = new BrowserHelper();
+
+  isButtonVisible(buttonName: string) {
+    return this.browserHelper
+      .waitForElementToBeVisible(element(by.buttonText(buttonName)));
   }
 }

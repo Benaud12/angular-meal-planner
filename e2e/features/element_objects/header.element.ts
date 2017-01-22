@@ -6,10 +6,11 @@ export class HeaderElement {
   tagName: string = 'mp-header';
 
   isPresent() {
-    return this.browserHelper.waitForElementByTagName(this.tagName);
+    return this.browserHelper
+      .waitForElementToBeVisible(element(by.tagName(this.tagName)));
   }
 
   getTitle() {
-    return element(by.css(this.tagName + ' h2')).getText();
+    return element(by.css(this.tagName + ' > h2')).getText();
   }
 }

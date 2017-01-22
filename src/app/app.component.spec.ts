@@ -28,13 +28,4 @@ describe('AppComponent', () => {
   it('should create the app', async(() => {
     expect(component).toBeTruthy();
   }));
-
-  it(`should have as title 'app works!'`, async(() => {
-    expect(component.title).toEqual('app works!');
-  }));
-
-  it('should render title in a h1 tag', async(() => {
-    let compiled = fixture.debugElement.nativeElement;
-    expect(compiled.querySelector('h1').textContent).toContain('app works!');
-  }));
 });

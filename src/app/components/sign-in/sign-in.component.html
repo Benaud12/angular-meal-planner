@@ -1,3 +1,7 @@
 <h2>Welcome to the Meal Planner!</h2>
-<button class="login">Login</button>
-<button class="sign-in">Sign Up</button>
+
+<mp-log-in [active]="logInActive" (activationCallback)="logInActivation()">
+</mp-log-in>
+
+<mp-sign-up [active]="signUpActive" (activationCallback)="signUpActivation()">
+</mp-sign-up>

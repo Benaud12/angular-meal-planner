@@ -10,12 +10,24 @@ button {
   border-radius: 0.4em;
   height: 50px;
   font-size: 1.5em;
+  text-align: center;
 }
 
 button.login {
   background-color: green;
 }
 
-button.sign-in {
+button.sign-up {
   background-color: blue;
+}
+
+input {
+  width: 80%;
+  margin: 0.5em 1em 0.5em 1em;
+  height: 50px;
+  font-size: 1.5em;
+  text-align: center;
+  border-width: 0 0 1px 0;
+  border-bottom-color: grey;
+  border-style: solid;
 }

@@ -7,7 +7,6 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './components/header/header.component';
 import { SignInComponent } from './components/sign-in/sign-in.component';
-import { FormSlidingViewComponent } from './components/form-sliding-view/form-sliding-view.component';
 import { LogInComponent } from './components/log-in/log-in.component';
 import { SignUpComponent } from './components/sign-up/sign-up.component';
 
@@ -16,7 +15,6 @@ import { SignUpComponent } from './components/sign-up/sign-up.component';
     AppComponent,
     HeaderComponent,
     SignInComponent,
-    FormSlidingViewComponent,
     LogInComponent,
     SignUpComponent
   ],

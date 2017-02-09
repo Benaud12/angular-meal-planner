@@ -27,38 +27,6 @@ describe('SignUpComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should have the correct buttonText', () => {
-    // Assert
-    expect(component.buttonText).toEqual('Sign Up');
-  });
-
-  it('should have the correct inputElements', () => {
-    // Assert
-    let expected = [
-      {
-        name: 'username',
-        placeholder: 'username',
-        type: 'text'
-      },
-      {
-        name: 'email',
-        placeholder: 'email',
-        type: 'email'
-      },
-      {
-        name: 'password',
-        placeholder: 'password',
-        type: 'password'
-      },
-      {
-        name: 'password-confirm',
-        placeholder: 'confirm password',
-        type: 'password'
-      }
-    ];
-    expect(component.inputElements).toEqual(expected);
-  });
-
   describe('signUpAction', () => {
     beforeEach(() => {
       spyOn(component.activationCallback, 'emit');

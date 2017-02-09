@@ -1,7 +1,7 @@
-<mp-form-sliding-view
-  [active]="active"
-  [buttonText]="buttonText"
-  [buttonColor]="buttonColor"
-  [inputElements]="inputElements"
-  (buttonClickCallback)="signUpAction()">
-</mp-form-sliding-view>
+<div class="input-container" [ngClass]="{'active': active, 'inactive': !active}">
+  <input name="username" placeholder="username" type="text">
+  <input name="email" placeholder="email" type="email">
+  <input name="password" placeholder="password" type="password">
+  <input name="password-confirm" placeholder="confirm password" type="password">
+</div>
+<button (click)="signUpAction()">Sign Up</button>

@@ -1,3 +1,39 @@
-:host /deep/ button {
+button {
   background-color: #269ebb;
+  width: 80%;
+  margin: 0.5em 0 0.5em 0;
+  border: none;
+  border-radius: 0.4em;
+  height: 50px;
+  font-size: 1.5em;
+  text-align: center;
+}
+
+.input-container {
+  line-height: 0;
+}
+
+.input-container input {
+  width: 80%;
+  height: 0;
+  background-color: #F5F3EE;
+  font-size: 1.5em;
+  text-align: center;
+  border-bottom-color: grey;
+  border-style: solid;
+}
+
+.input-container.active input {
+  height: 50px;
+  opacity: 1;
+  border-width: 0 0 1px 0;
+  margin: 0.5em 1em 0.5em 1em;
+  transition: all 0.5s ease;
+}
+
+.input-container.inactive input {
+  height: 0;
+  opacity: 0;
+  border-width: 0;
+  transition: height 0.5s ease, opacity 0.5s ease, border-width 0s linear 0.4s;
 }

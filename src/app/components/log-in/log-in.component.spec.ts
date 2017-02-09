@@ -28,28 +28,6 @@ describe('LogInComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should have the correct buttonText', () => {
-    // Assert
-    expect(component.buttonText).toEqual('Log In');
-  });
-
-  it('should have the correct inputElements', () => {
-    // Assert
-    let expected = [
-      {
-        name: 'username',
-        placeholder: 'username',
-        type: 'text'
-      },
-      {
-        name: 'password',
-        placeholder: 'password',
-        type: 'password'
-      }
-    ];
-    expect(component.inputElements).toEqual(expected);
-  });
-
   describe('logInAction', () => {
     beforeEach(() => {
       spyOn(component.activationCallback, 'emit');

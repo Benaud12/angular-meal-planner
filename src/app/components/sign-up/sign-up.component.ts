@@ -7,31 +7,6 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
 })
 export class SignUpComponent {
 
-  public buttonText: string = 'Sign Up';
-
-  public inputElements: Array<Object> = [
-    {
-      name: 'username',
-      placeholder: 'username',
-      type: 'text'
-    },
-    {
-      name: 'email',
-      placeholder: 'email',
-      type: 'email'
-    },
-    {
-      name: 'password',
-      placeholder: 'password',
-      type: 'password'
-    },
-    {
-      name: 'password-confirm',
-      placeholder: 'confirm password',
-      type: 'password'
-    }
-  ];
-
   @Input() public active: boolean;
 
   @Output('activationCallback') public activationCallback = new EventEmitter();

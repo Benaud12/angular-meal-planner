@@ -1,7 +1,21 @@
 <div class="input-container" [ngClass]="{'active': active, 'inactive': !active}">
-  <input name="username" placeholder="username" type="text">
-  <input name="email" placeholder="email" type="email">
-  <input name="password" placeholder="password" type="password">
-  <input name="password-confirm" placeholder="confirm password" type="password">
+  <form [formGroup]="signUpForm">
+    <input name="username"
+           placeholder="username"
+           type="text"
+           [formControl]="signUpForm.controls['username']">
+    <input name="email"
+           placeholder="email"
+           type="email"
+           [formControl]="signUpForm.controls['email']">
+    <input name="password"
+           placeholder="password"
+           type="password"
+           [formControl]="signUpForm.controls['password']">
+    <input name="password-confirm"
+           placeholder="confirm password"
+           type="password"
+           [formControl]="signUpForm.controls['passwordConfirm']">
+  </form>
 </div>
 <button (click)="signUpAction()">Sign Up</button>

@@ -33,31 +33,31 @@ describe('SignInComponent', () => {
     expect(component.signUpActive).toBe(false);
   });
 
-  it('should have logInActive set to false initially', () => {
+  it('should have loginActive set to false initially', () => {
     // Assert
-    expect(component.logInActive).toBe(false);
+    expect(component.loginActive).toBe(false);
   });
 
-  describe('startLogIn', () => {
-    it('should set logInActive to true', () => {
+  describe('startLogin', () => {
+    it('should set loginActive to true', () => {
       // Act
-      component.startLogIn();
+      component.startLogin();
 
       // Assert
-      expect(component.logInActive).toBe(true);
+      expect(component.loginActive).toBe(true);
     });
   });
 
-  describe('stopLogIn', () => {
-    it('should set logInActive to false', () => {
+  describe('stopLogin', () => {
+    it('should set loginActive to false', () => {
       // Arrange
-      component.logInActive = true;
+      component.loginActive = true;
 
       // Act
-      component.stopLogIn();
+      component.stopLogin();
 
       // Assert
-      expect(component.logInActive).toBe(false);
+      expect(component.loginActive).toBe(false);
     });
   });
 
@@ -84,33 +84,33 @@ describe('SignInComponent', () => {
     });
   });
 
-  describe('logInActivation', () => {
-    it('should call startLogIn and stopSignUp functions', () => {
+  describe('loginActivation', () => {
+    it('should call startLogin and stopSignUp functions', () => {
       // Arrange
-      spyOn(component, 'startLogIn');
+      spyOn(component, 'startLogin');
       spyOn(component, 'stopSignUp');
 
       // Act
-      component.logInActivation();
+      component.loginActivation();
 
       // Assert
-      expect(component.startLogIn).toHaveBeenCalledWith();
+      expect(component.startLogin).toHaveBeenCalledWith();
       expect(component.stopSignUp).toHaveBeenCalledWith();
     });
   });
 
   describe('signUpActivation', () => {
-    it('should call startSignUp and stopLogIn functions', () => {
+    it('should call startSignUp and stopLogin functions', () => {
       // Arrange
       spyOn(component, 'startSignUp');
-      spyOn(component, 'stopLogIn');
+      spyOn(component, 'stopLogin');
 
       // Act
       component.signUpActivation();
 
       // Assert
       expect(component.startSignUp).toHaveBeenCalledWith();
-      expect(component.stopLogIn).toHaveBeenCalledWith();
+      expect(component.stopLogin).toHaveBeenCalledWith();
     });
   });
 });

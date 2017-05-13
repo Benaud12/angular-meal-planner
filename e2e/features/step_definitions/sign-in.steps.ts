@@ -14,14 +14,14 @@ module.exports = function () {
   });
 
   this.Then(/^I should see the Log In input fields$/, () => {
-    return page.getAllLogInInputElements().each((element) => {
+    return page.getAllLoginInputElements().each((element) => {
       return expect(appPage.isElementVisible(element))
         .to.eventually.equal(true);
     });
   });
 
   this.Then(/^I should not see the Log In input fields$/, () => {
-    return page.getAllLogInInputElements().each((element) => {
+    return page.getAllLoginInputElements().each((element) => {
       return expect(appPage.isElementInvisible(element))
         .to.eventually.equal(true);
     });

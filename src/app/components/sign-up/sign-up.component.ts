@@ -10,7 +10,7 @@ import { ValidationHelper } from '../../helpers/validation.helper';
 })
 export class SignUpComponent implements OnInit {
 
-  signUpForm: FormGroup;
+  public signUpForm: FormGroup;
 
   @Input() public active: boolean;
 

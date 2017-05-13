@@ -11,7 +11,8 @@ describe('UserService', () => {
 
   beforeEach(() => {
     MockAuthService = {
-      createUser: jasmine.createSpy('createUser')
+      createUser: jasmine.createSpy('createUser'),
+      login: jasmine.createSpy('login')
     };
     MockDataService = {
       createUserEntry: jasmine.createSpy('createUserEntry')
@@ -202,5 +203,24 @@ describe('UserService', () => {
           });
         })));
     });
+  });
+
+  describe('login', () => {
+    it('should call login on the authentication service correctly and retrun ' +
+      'the response', inject([UserService], (service: UserService) => {
+        // Arrange
+        const user = {
+          email: 'benny@gmail.com',
+          password: 'guess_me'
+        };
+        MockAuthService.login.and.returnValue('beef');
+
+        // Act
+        const result = service.login(user);
+
+        // Assert
+        expect(MockAuthService.login).toHaveBeenCalledWith(user);
+        expect(result).toEqual('beef');
+      }));
   });
 });

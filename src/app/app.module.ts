@@ -3,16 +3,18 @@ import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { AppRoutingModule } from './app-routing.module';
-import { AngularFireModule, AuthMethods } from 'angularfire2';
+import { AngularFireModule, AuthMethods, AuthProviders } from 'angularfire2';
 import { environment } from '../environments/environment';
 
 import { AuthenticationService, DataService, UserService } from './services';
 
 import { AppComponent } from './app.component';
+import { AuthRouteGuard } from './auth-route.guard';
 import { HeaderComponent,
-         LogInComponent,
+         LoginComponent,
          SignInComponent,
          SignUpComponent } from './components';
+import { ActivatingInputComponent } from './components/activating-input/activating-input.component';
 
 const firebaseConfig = {
   apiKey: environment.firebaseConfig.apiKey,
@@ -26,16 +28,18 @@ const firebaseConfig = {
   declarations: [
     AppComponent,
     HeaderComponent,
-    LogInComponent,
+    LoginComponent,
     SignInComponent,
-    SignUpComponent
+    SignUpComponent,
+    ActivatingInputComponent,
   ],
   imports: [
     AngularFireModule.initializeApp(
       firebaseConfig,
       {
         // method: AuthMethods.Popup,
-        method: AuthMethods.Redirect
+        provider: AuthProviders.Password,
+        method: AuthMethods.Password
       }
     ),
     AppRoutingModule,

@@ -9,14 +9,14 @@ export class SignInComponent {
 
   public signUpActive: boolean = false;
 
-  public logInActive: boolean = false;
+  public loginActive: boolean = false;
 
-  public startLogIn(): void {
-    this.logInActive = true;
+  public startLogin(): void {
+    this.loginActive = true;
   }
 
-  public stopLogIn(): void {
-    this.logInActive = false;
+  public stopLogin(): void {
+    this.loginActive = false;
   }
 
   public startSignUp(): void {
@@ -27,13 +27,13 @@ export class SignInComponent {
     this.signUpActive = false;
   }
 
-  public logInActivation(): void {
+  public loginActivation(): void {
     this.stopSignUp();
-    this.startLogIn();
+    this.startLogin();
   }
 
   public signUpActivation(): void {
-    this.stopLogIn();
+    this.stopLogin();
     this.startSignUp();
   }
 }

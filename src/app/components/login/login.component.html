@@ -1,0 +1,18 @@
+<form [formGroup]="loginForm">
+  <mp-activating-input [active]="active"
+    formControlName="email"
+    [inputName]="'email'"
+    [inputPlaceholder]="'email'"
+    [inputType]="'email'"
+    [inputFormControl]="loginForm.controls['email']"
+    ngDefaultControl></mp-activating-input>
+
+  <mp-activating-input [active]="active"
+    formControlName="password"
+    [inputName]="'password'"
+    [inputPlaceholder]="'password'"
+    [inputType]="'password'"
+    [inputFormControl]="loginForm.controls['password']"
+    ngDefaultControl></mp-activating-input>
+</form>
+<button (click)="loginAction()">Log In</button>

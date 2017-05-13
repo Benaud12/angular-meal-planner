@@ -1,21 +1,35 @@
-<div class="input-container" [ngClass]="{'active': active, 'inactive': !active}">
-  <form [formGroup]="signUpForm">
-    <input name="username"
-           placeholder="username"
-           type="text"
-           [formControl]="signUpForm.controls['username']">
-    <input name="email"
-           placeholder="email"
-           type="email"
-           [formControl]="signUpForm.controls['email']">
-    <input name="password"
-           placeholder="password"
-           type="password"
-           [formControl]="signUpForm.controls['password']">
-    <input name="password-confirm"
-           placeholder="confirm password"
-           type="password"
-           [formControl]="signUpForm.controls['passwordConfirm']">
-  </form>
-</div>
+<form [formGroup]="signUpForm">
+  <mp-activating-input [active]="active"
+    formControlName="username"
+    [inputName]="'username'"
+    [inputPlaceholder]="'username'"
+    [inputType]="text"
+    [inputFormControl]="signUpForm.controls['username']"
+    ngDefaultControl></mp-activating-input>
+
+  <mp-activating-input [active]="active"
+    formControlName="email"
+    [inputName]="'email'"
+    [inputPlaceholder]="'email'"
+    [inputType]="'email'"
+    [inputFormControl]="signUpForm.controls['email']"
+    ngDefaultControl></mp-activating-input>
+
+  <mp-activating-input [active]="active"
+    formControlName="password"
+    [inputName]="'password'"
+    [inputPlaceholder]="'password'"
+    [inputType]="'password'"
+    [inputFormControl]="signUpForm.controls['password']"
+    ngDefaultControl></mp-activating-input>
+
+  <mp-activating-input [active]="active"
+    formControlName="password"
+    [inputName]="'password-confirm'"
+    [inputPlaceholder]="'confirm password'"
+    [inputType]="'password'"
+    [inputFormControl]="signUpForm.controls['passwordConfirm']"
+    ngDefaultControl></mp-activating-input>
+</form>
+
 <button (click)="signUpAction()">Sign Up</button>

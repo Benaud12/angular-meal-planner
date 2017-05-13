@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AuthenticationService, DataService } from './';
 import { FirebaseAuthState } from 'angularfire2';
-import { NewUser, NewUserDatabase } from '../interfaces';
+import { NewUser, NewUserDatabase, UserAuth } from '../interfaces';
 
 @Injectable()
 export class UserService {
@@ -39,5 +39,9 @@ export class UserService {
           dataEntryCreated: false
         });
       });
+  }
+
+  login(user: UserAuth): firebase.Promise<FirebaseAuthState> {
+    return this.authService.login(user);
   }
 }

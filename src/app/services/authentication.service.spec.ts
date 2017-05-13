@@ -7,7 +7,9 @@ describe('AuthenticationService', () => {
 
   beforeEach(() => {
     MockAngularFireAuth = {
-      createUser: jasmine.createSpy('createUser')
+      createUser: jasmine.createSpy('createUser'),
+      login: jasmine.createSpy('login'),
+      subscribe: jasmine.createSpy('subscribe')
     };
     TestBed.configureTestingModule({
       providers: [
@@ -54,6 +56,26 @@ describe('AuthenticationService', () => {
 
         // Assert
         expect(result).toEqual(MockAngularFireAuth);
+      }));
+  });
+
+  describe('login', () => {
+    it('should call login on the firebase auth service and return the ' +
+      'response', inject([AuthenticationService],
+      (service: AuthenticationService) => {
+        // Arrange
+        const userDeets = {
+          email: 'eggy@bread.com',
+          password: 'passy_p'
+        };
+        MockAngularFireAuth.login.and.returnValue('promise');
+
+        // Act
+        const result = service.login(userDeets);
+
+        // Assert
+        expect(MockAngularFireAuth.login).toHaveBeenCalledWith(userDeets);
+        expect(result).toEqual('promise');
       }));
   });
 });

@@ -12,8 +12,8 @@ import { AppComponent } from './app.component';
 import { AuthRouteGuard } from './auth-route.guard';
 import { HeaderComponent,
          LoginComponent,
-         SignInComponent,
          SignUpComponent } from './components';
+import { LoginPage } from './pages';
 import { ActivatingInputComponent } from './components/activating-input/activating-input.component';
 
 const firebaseConfig = {
@@ -29,7 +29,7 @@ const firebaseConfig = {
     AppComponent,
     HeaderComponent,
     LoginComponent,
-    SignInComponent,
+    LoginPage,
     SignUpComponent,
     ActivatingInputComponent,
   ],

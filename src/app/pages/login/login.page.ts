@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'mp-sign-in',
-  templateUrl: './sign-in.component.html',
-  styleUrls: ['./sign-in.component.scss']
+  selector: 'mp-login-page',
+  templateUrl: './login.page.html',
+  styleUrls: ['./login.page.scss']
 })
-export class SignInComponent {
+export class LoginPage {
 
   public signUpActive: boolean = false;
 

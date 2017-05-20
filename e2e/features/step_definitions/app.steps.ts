@@ -1,20 +1,22 @@
 import { MealPlannerPage } from '../page_objects/app.page';
-let chai = require('chai').use(require('chai-as-promised'));
-let expect = chai.expect;
 
-module.exports = function () {
+const chai = require('chai').use(require('chai-as-promised')),
+  { defineSupportCode } = require('cucumber'),
+  expect = chai.expect;
 
-  let page: MealPlannerPage = new MealPlannerPage();
+defineSupportCode(function({Given, When, Then}) {
 
-  this.Given(/^an anonymous user$/, () => {
-    return;
+  const page: MealPlannerPage = new MealPlannerPage();
+
+  Given(/^an anonymous user$/, (done) => {
+    done();
   });
 
-  this.When(/^I click the (.*) button$/, (buttonName) => {
+  When(/^I click the (.*) button$/, (buttonName) => {
     return page.clickButton(buttonName);
   });
 
-  this.Then(/^I should see the (.*) button$/, (buttonName) => {
+  Then(/^I should see the (.*) button$/, (buttonName) => {
     return expect(page.isButtonVisible(buttonName)).to.eventually.equal(true);
   });
-}
+});

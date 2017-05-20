@@ -50,6 +50,7 @@ const postcssPlugins = function () {
             autoprefixer(),
         ].concat(minimizeCss ? [cssnano(minimizeOptions)] : []);
     };
+const mainFileName = process.argv.indexOf('-p') > -1 ? 'main' : 'main.mocked';
 
 
 
@@ -72,7 +73,7 @@ module.exports = {
   },
   "entry": {
     "main": [
-      "./src/main.ts"
+      `./src/${mainFileName}.ts`
     ],
     "styles": [
       "./src/styles.css"
@@ -396,7 +397,7 @@ module.exports = {
       ]
     }),
     new AotPlugin({
-      "mainPath": "main.ts",
+      "mainPath": `${mainFileName}.ts`,
       "hostReplacementPaths": {
         "environments/environment.ts": "environments/environment.ts"
       },

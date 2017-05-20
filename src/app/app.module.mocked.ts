@@ -14,4 +14,4 @@ import {
   bootstrap: APP_BOOTSTRAP,
   schemas: APP_SCHEMAS
 })
-export class AppModule { }
+export class MockedAppModule { }

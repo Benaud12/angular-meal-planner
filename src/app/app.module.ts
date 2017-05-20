@@ -50,6 +50,7 @@ const firebaseConfig = {
   ],
   providers: [
     AuthenticationService,
+    AuthRouteGuard,
     DataService,
     UserService
   ],

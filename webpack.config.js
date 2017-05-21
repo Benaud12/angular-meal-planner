@@ -50,374 +50,377 @@ const postcssPlugins = function () {
             autoprefixer(),
         ].concat(minimizeCss ? [cssnano(minimizeOptions)] : []);
     };
-const mainFileName = process.argv.indexOf('-p') > -1 ? 'main' : 'main.mocked';
 
 
+module.exports = (env) => {
+  env = env || { env: 'dev' };
+  const mainFileName = env.mocked ? 'main.mocked' : 'main',
+    envFileName = `environment.${env.env}`;
 
-
-module.exports = {
-  "devtool": "source-map",
-  "resolve": {
-    "extensions": [
-      ".ts",
-      ".js"
-    ],
-    "modules": [
-      "./node_modules"
-    ]
-  },
-  "resolveLoader": {
-    "modules": [
-      "./node_modules"
-    ]
-  },
-  "entry": {
-    "main": [
-      `./src/${mainFileName}.ts`
-    ],
-    "styles": [
-      "./src/styles.css"
-    ]
-  },
-  "output": {
-    "path": path.join(process.cwd(), "dist"),
-    "filename": "[name].bundle.js",
-    "chunkFilename": "[id].chunk.js"
-  },
-  "module": {
-    "rules": [
-      {
-        "enforce": "pre",
-        "test": /\.js$/,
-        "loader": "source-map-loader",
-        "exclude": [
-          /\/node_modules\//
-        ]
-      },
-      {
-        "test": /\.json$/,
-        "loader": "json-loader"
-      },
-      {
-        "test": /\.html$/,
-        "loader": "raw-loader"
-      },
-      {
-        "test": /\.(eot|svg)$/,
-        "loader": "file-loader?name=[name].[hash:20].[ext]"
-      },
-      {
-        "test": /\.(jpg|png|gif|otf|ttf|woff|woff2|cur|ani)$/,
-        "loader": "url-loader?name=[name].[hash:20].[ext]&limit=10000"
-      },
-      {
-        "exclude": [
-          path.join(process.cwd(), "src/styles.css")
-        ],
-        "test": /\.css$/,
-        "use": [
-          "exports-loader?module.exports.toString()",
-          {
-            "loader": "css-loader",
-            "options": {
-              "sourceMap": false,
-              "importLoaders": 1
-            }
-          },
-          {
-            "loader": "postcss-loader",
-            "options": {
-              "ident": "postcss",
-              "plugins": postcssPlugins
-            }
-          }
-        ]
-      },
-      {
-        "exclude": [
-          path.join(process.cwd(), "src/styles.css")
-        ],
-        "test": /\.scss$|\.sass$/,
-        "use": [
-          "exports-loader?module.exports.toString()",
-          {
-            "loader": "css-loader",
-            "options": {
-              "sourceMap": false,
-              "importLoaders": 1
-            }
-          },
-          {
-            "loader": "postcss-loader",
-            "options": {
-              "ident": "postcss",
-              "plugins": postcssPlugins
-            }
-          },
-          {
-            "loader": "sass-loader",
-            "options": {
-              "sourceMap": false,
-              "precision": 8,
-              "includePaths": []
-            }
-          }
-        ]
-      },
-      {
-        "exclude": [
-          path.join(process.cwd(), "src/styles.css")
-        ],
-        "test": /\.less$/,
-        "use": [
-          "exports-loader?module.exports.toString()",
-          {
-            "loader": "css-loader",
-            "options": {
-              "sourceMap": false,
-              "importLoaders": 1
-            }
-          },
-          {
-            "loader": "postcss-loader",
-            "options": {
-              "ident": "postcss",
-              "plugins": postcssPlugins
-            }
-          },
-          {
-            "loader": "less-loader",
-            "options": {
-              "sourceMap": false
-            }
-          }
-        ]
-      },
-      {
-        "exclude": [
-          path.join(process.cwd(), "src/styles.css")
-        ],
-        "test": /\.styl$/,
-        "use": [
-          "exports-loader?module.exports.toString()",
-          {
-            "loader": "css-loader",
-            "options": {
-              "sourceMap": false,
-              "importLoaders": 1
-            }
-          },
-          {
-            "loader": "postcss-loader",
-            "options": {
-              "ident": "postcss",
-              "plugins": postcssPlugins
-            }
-          },
-          {
-            "loader": "stylus-loader",
-            "options": {
-              "sourceMap": false,
-              "paths": []
-            }
-          }
-        ]
-      },
-      {
-        "include": [
-          path.join(process.cwd(), "src/styles.css")
-        ],
-        "test": /\.css$/,
-        "use": [
-          "style-loader",
-          {
-            "loader": "css-loader",
-            "options": {
-              "sourceMap": false,
-              "importLoaders": 1
-            }
-          },
-          {
-            "loader": "postcss-loader",
-            "options": {
-              "ident": "postcss",
-              "plugins": postcssPlugins
-            }
-          }
-        ]
-      },
-      {
-        "include": [
-          path.join(process.cwd(), "src/styles.css")
-        ],
-        "test": /\.scss$|\.sass$/,
-        "use": [
-          "style-loader",
-          {
-            "loader": "css-loader",
-            "options": {
-              "sourceMap": false,
-              "importLoaders": 1
-            }
-          },
-          {
-            "loader": "postcss-loader",
-            "options": {
-              "ident": "postcss",
-              "plugins": postcssPlugins
-            }
-          },
-          {
-            "loader": "sass-loader",
-            "options": {
-              "sourceMap": false,
-              "precision": 8,
-              "includePaths": []
-            }
-          }
-        ]
-      },
-      {
-        "include": [
-          path.join(process.cwd(), "src/styles.css")
-        ],
-        "test": /\.less$/,
-        "use": [
-          "style-loader",
-          {
-            "loader": "css-loader",
-            "options": {
-              "sourceMap": false,
-              "importLoaders": 1
-            }
-          },
-          {
-            "loader": "postcss-loader",
-            "options": {
-              "ident": "postcss",
-              "plugins": postcssPlugins
-            }
-          },
-          {
-            "loader": "less-loader",
-            "options": {
-              "sourceMap": false
-            }
-          }
-        ]
-      },
-      {
-        "include": [
-          path.join(process.cwd(), "src/styles.css")
-        ],
-        "test": /\.styl$/,
-        "use": [
-          "style-loader",
-          {
-            "loader": "css-loader",
-            "options": {
-              "sourceMap": false,
-              "importLoaders": 1
-            }
-          },
-          {
-            "loader": "postcss-loader",
-            "options": {
-              "ident": "postcss",
-              "plugins": postcssPlugins
-            }
-          },
-          {
-            "loader": "stylus-loader",
-            "options": {
-              "sourceMap": false,
-              "paths": []
-            }
-          }
-        ]
-      },
-      {
-        "test": /\.ts$/,
-        "loader": "@ngtools/webpack"
-      }
-    ]
-  },
-  "plugins": [
-    new NoEmitOnErrorsPlugin(),
-    new GlobCopyWebpackPlugin({
-      "patterns": [
-        "assets",
-        "favicon.ico"
+  return {
+    "devtool": "source-map",
+    "resolve": {
+      "extensions": [
+        ".ts",
+        ".js"
       ],
-      "globOptions": {
-        "cwd": "/Users/michaelroger/Projects/angular2/meal-planner/src",
-        "dot": true,
-        "ignore": "**/.gitkeep"
-      }
-    }),
-    new ProgressPlugin(),
-    new HtmlWebpackPlugin({
-      "template": "./src/index.html",
-      "filename": "./index.html",
-      "hash": false,
-      "inject": true,
-      "compile": true,
-      "favicon": false,
-      "minify": false,
-      "cache": true,
-      "showErrors": true,
-      "chunks": "all",
-      "excludeChunks": [],
-      "title": "Webpack App",
-      "xhtml": true,
-      "chunksSortMode": function sort(left, right) {
-        let leftIndex = entryPoints.indexOf(left.names[0]);
-        let rightindex = entryPoints.indexOf(right.names[0]);
-        if (leftIndex > rightindex) {
-            return 1;
-        }
-        else if (leftIndex < rightindex) {
-            return -1;
-        }
-        else {
-            return 0;
-        }
-    }
-    }),
-    new BaseHrefWebpackPlugin({}),
-    new CommonsChunkPlugin({
-      "name": "inline",
-      "minChunks": null
-    }),
-    new CommonsChunkPlugin({
-      "name": "vendor",
-      "minChunks": (module) => module.resource && module.resource.startsWith(nodeModules),
-      "chunks": [
-        "main"
+      "modules": [
+        "./node_modules"
       ]
-    }),
-    new AotPlugin({
-      "mainPath": `${mainFileName}.ts`,
-      "hostReplacementPaths": {
-        "environments/environment.ts": "environments/environment.ts"
-      },
-      "exclude": [],
-      "tsConfigPath": "src/tsconfig.json",
-      "skipCodeGeneration": true
-    })
-  ],
-  "node": {
-    "fs": "empty",
-    "global": true,
-    "crypto": "empty",
-    "tls": "empty",
-    "net": "empty",
-    "process": true,
-    "module": false,
-    "clearImmediate": false,
-    "setImmediate": false
-  },
-  "devServer": {
-    "historyApiFallback": true
-  }
+    },
+    "resolveLoader": {
+      "modules": [
+        "./node_modules"
+      ]
+    },
+    "entry": {
+      "main": [
+        `./src/${mainFileName}.ts`
+      ],
+      "styles": [
+        "./src/styles.css"
+      ]
+    },
+    "output": {
+      "path": path.join(process.cwd(), "dist"),
+      "filename": "[name].bundle.js",
+      "chunkFilename": "[id].chunk.js"
+    },
+    "module": {
+      "rules": [
+        {
+          "enforce": "pre",
+          "test": /\.js$/,
+          "loader": "source-map-loader",
+          "exclude": [
+            /\/node_modules\//
+          ]
+        },
+        {
+          "test": /\.json$/,
+          "loader": "json-loader"
+        },
+        {
+          "test": /\.html$/,
+          "loader": "raw-loader"
+        },
+        {
+          "test": /\.(eot|svg)$/,
+          "loader": "file-loader?name=[name].[hash:20].[ext]"
+        },
+        {
+          "test": /\.(jpg|png|gif|otf|ttf|woff|woff2|cur|ani)$/,
+          "loader": "url-loader?name=[name].[hash:20].[ext]&limit=10000"
+        },
+        {
+          "exclude": [
+            path.join(process.cwd(), "src/styles.css")
+          ],
+          "test": /\.css$/,
+          "use": [
+            "exports-loader?module.exports.toString()",
+            {
+              "loader": "css-loader",
+              "options": {
+                "sourceMap": false,
+                "importLoaders": 1
+              }
+            },
+            {
+              "loader": "postcss-loader",
+              "options": {
+                "ident": "postcss",
+                "plugins": postcssPlugins
+              }
+            }
+          ]
+        },
+        {
+          "exclude": [
+            path.join(process.cwd(), "src/styles.css")
+          ],
+          "test": /\.scss$|\.sass$/,
+          "use": [
+            "exports-loader?module.exports.toString()",
+            {
+              "loader": "css-loader",
+              "options": {
+                "sourceMap": false,
+                "importLoaders": 1
+              }
+            },
+            {
+              "loader": "postcss-loader",
+              "options": {
+                "ident": "postcss",
+                "plugins": postcssPlugins
+              }
+            },
+            {
+              "loader": "sass-loader",
+              "options": {
+                "sourceMap": false,
+                "precision": 8,
+                "includePaths": []
+              }
+            }
+          ]
+        },
+        {
+          "exclude": [
+            path.join(process.cwd(), "src/styles.css")
+          ],
+          "test": /\.less$/,
+          "use": [
+            "exports-loader?module.exports.toString()",
+            {
+              "loader": "css-loader",
+              "options": {
+                "sourceMap": false,
+                "importLoaders": 1
+              }
+            },
+            {
+              "loader": "postcss-loader",
+              "options": {
+                "ident": "postcss",
+                "plugins": postcssPlugins
+              }
+            },
+            {
+              "loader": "less-loader",
+              "options": {
+                "sourceMap": false
+              }
+            }
+          ]
+        },
+        {
+          "exclude": [
+            path.join(process.cwd(), "src/styles.css")
+          ],
+          "test": /\.styl$/,
+          "use": [
+            "exports-loader?module.exports.toString()",
+            {
+              "loader": "css-loader",
+              "options": {
+                "sourceMap": false,
+                "importLoaders": 1
+              }
+            },
+            {
+              "loader": "postcss-loader",
+              "options": {
+                "ident": "postcss",
+                "plugins": postcssPlugins
+              }
+            },
+            {
+              "loader": "stylus-loader",
+              "options": {
+                "sourceMap": false,
+                "paths": []
+              }
+            }
+          ]
+        },
+        {
+          "include": [
+            path.join(process.cwd(), "src/styles.css")
+          ],
+          "test": /\.css$/,
+          "use": [
+            "style-loader",
+            {
+              "loader": "css-loader",
+              "options": {
+                "sourceMap": false,
+                "importLoaders": 1
+              }
+            },
+            {
+              "loader": "postcss-loader",
+              "options": {
+                "ident": "postcss",
+                "plugins": postcssPlugins
+              }
+            }
+          ]
+        },
+        {
+          "include": [
+            path.join(process.cwd(), "src/styles.css")
+          ],
+          "test": /\.scss$|\.sass$/,
+          "use": [
+            "style-loader",
+            {
+              "loader": "css-loader",
+              "options": {
+                "sourceMap": false,
+                "importLoaders": 1
+              }
+            },
+            {
+              "loader": "postcss-loader",
+              "options": {
+                "ident": "postcss",
+                "plugins": postcssPlugins
+              }
+            },
+            {
+              "loader": "sass-loader",
+              "options": {
+                "sourceMap": false,
+                "precision": 8,
+                "includePaths": []
+              }
+            }
+          ]
+        },
+        {
+          "include": [
+            path.join(process.cwd(), "src/styles.css")
+          ],
+          "test": /\.less$/,
+          "use": [
+            "style-loader",
+            {
+              "loader": "css-loader",
+              "options": {
+                "sourceMap": false,
+                "importLoaders": 1
+              }
+            },
+            {
+              "loader": "postcss-loader",
+              "options": {
+                "ident": "postcss",
+                "plugins": postcssPlugins
+              }
+            },
+            {
+              "loader": "less-loader",
+              "options": {
+                "sourceMap": false
+              }
+            }
+          ]
+        },
+        {
+          "include": [
+            path.join(process.cwd(), "src/styles.css")
+          ],
+          "test": /\.styl$/,
+          "use": [
+            "style-loader",
+            {
+              "loader": "css-loader",
+              "options": {
+                "sourceMap": false,
+                "importLoaders": 1
+              }
+            },
+            {
+              "loader": "postcss-loader",
+              "options": {
+                "ident": "postcss",
+                "plugins": postcssPlugins
+              }
+            },
+            {
+              "loader": "stylus-loader",
+              "options": {
+                "sourceMap": false,
+                "paths": []
+              }
+            }
+          ]
+        },
+        {
+          "test": /\.ts$/,
+          "loader": "@ngtools/webpack"
+        }
+      ]
+    },
+    "plugins": [
+      new NoEmitOnErrorsPlugin(),
+      new GlobCopyWebpackPlugin({
+        "patterns": [
+          "assets",
+          "favicon.ico"
+        ],
+        "globOptions": {
+          "cwd": "/Users/michaelroger/Projects/angular2/meal-planner/src",
+          "dot": true,
+          "ignore": "**/.gitkeep"
+        }
+      }),
+      new ProgressPlugin(),
+      new HtmlWebpackPlugin({
+        "template": "./src/index.html",
+        "filename": "./index.html",
+        "hash": false,
+        "inject": true,
+        "compile": true,
+        "favicon": false,
+        "minify": false,
+        "cache": true,
+        "showErrors": true,
+        "chunks": "all",
+        "excludeChunks": [],
+        "title": "Webpack App",
+        "xhtml": true,
+        "chunksSortMode": function sort(left, right) {
+          let leftIndex = entryPoints.indexOf(left.names[0]);
+          let rightindex = entryPoints.indexOf(right.names[0]);
+          if (leftIndex > rightindex) {
+              return 1;
+          }
+          else if (leftIndex < rightindex) {
+              return -1;
+          }
+          else {
+              return 0;
+          }
+      }
+      }),
+      new BaseHrefWebpackPlugin({}),
+      new CommonsChunkPlugin({
+        "name": "inline",
+        "minChunks": null
+      }),
+      new CommonsChunkPlugin({
+        "name": "vendor",
+        "minChunks": (module) => module.resource && module.resource.startsWith(nodeModules),
+        "chunks": [
+          "main"
+        ]
+      }),
+      new AotPlugin({
+        "mainPath": `${mainFileName}.ts`,
+        "hostReplacementPaths": {
+          "environments/environment.ts": `environments/${envFileName}.ts`
+        },
+        "exclude": [],
+        "tsConfigPath": "src/tsconfig.json",
+        "skipCodeGeneration": true
+      })
+    ],
+    "node": {
+      "fs": "empty",
+      "global": true,
+      "crypto": "empty",
+      "tls": "empty",
+      "net": "empty",
+      "process": true,
+      "module": false,
+      "clearImmediate": false,
+      "setImmediate": false
+    },
+    "devServer": {
+      "historyApiFallback": true
+    }
+  };
 };

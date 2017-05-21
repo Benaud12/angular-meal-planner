@@ -1,7 +1,11 @@
 import { Injectable } from '@angular/core';
 import { AuthenticationService, DataService } from './';
-import { FirebaseAuthState } from 'angularfire2';
-import { NewUser, NewUserDatabase, UserAuth } from '../interfaces';
+import {
+  NewUser,
+  NewUserDatabase,
+  UserAuth,
+  UserUpdateDetails } from '../interfaces';
+import * as firebase from 'firebase/app';
 
 @Injectable()
 export class UserService {
@@ -11,7 +15,7 @@ export class UserService {
     private dataService: DataService) {
   }
 
-  createUser(newUser: NewUser): firebase.Promise<FirebaseAuthState> {
+  createUser(newUser: NewUser): firebase.Promise<firebase.User> {
     return this.authService.createUser(newUser)
       .then(createdUser => {
         const userData = {
@@ -41,7 +45,24 @@ export class UserService {
       });
   }
 
-  login(user: UserAuth): firebase.Promise<FirebaseAuthState> {
+  login(user: UserAuth): firebase.Promise<firebase.User> {
     return this.authService.login(user);
   }
+
+  updateProfile(user: firebase.User,
+    details: UserUpdateDetails): firebase.Promise<any> {
+      return user.updateProfile(details)
+        .then(() => {
+          return Promise.resolve({
+            uid: user.uid,
+            profileUpdated: true
+          });
+        })
+        .catch(() => {
+          return Promise.resolve({
+            uid: user.uid,
+            profileUpdated: false
+          });
+        });
+    }
 }

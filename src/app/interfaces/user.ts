@@ -19,3 +19,8 @@ export interface CreateUserResponse {
   uid: string;
   databaseEntryCreated: boolean;
 }
+
+export interface UserUpdateDetails {
+  displayName: string | null,
+  photoURL: string | null
+}

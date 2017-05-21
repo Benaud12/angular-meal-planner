@@ -1,15 +1,26 @@
 import { TestBed, inject } from '@angular/core/testing';
-import { AngularFireAuth } from 'angularfire2';
+import { AngularFireAuth } from 'angularfire2/auth';
 import { AuthenticationService } from './authentication.service';
 
 describe('AuthenticationService', () => {
-  let MockAngularFireAuth: any;
+  let MockAngularFireAuth: any,
+    MockFirebaseAuth: any,
+    mockUser: any;
 
   beforeEach(() => {
+    MockFirebaseAuth = {
+      createUserWithEmailAndPassword:
+        jasmine.createSpy('createUserWithEmailAndPassword'),
+      signInWithEmailAndPassword:
+        jasmine.createSpy('signInWithEmailAndPassword')
+    };
     MockAngularFireAuth = {
-      createUser: jasmine.createSpy('createUser'),
-      login: jasmine.createSpy('login'),
-      subscribe: jasmine.createSpy('subscribe')
+      auth: MockFirebaseAuth,
+      authState: 'mock-auth-state'
+    };
+    mockUser = {
+      email: 'billy@gmail.com',
+      password: 'guess_me'
     };
     TestBed.configureTestingModule({
       providers: [
@@ -29,52 +40,47 @@ describe('AuthenticationService', () => {
     }));
 
   describe('createUser', () => {
-    it('should call createUser on the firebase auth service and return the ' +
-      'response', inject([AuthenticationService],
+    it('should call createUserWithEmailAndPassword on the firebase auth ' +
+      'service and return the response', inject([AuthenticationService],
       (service: AuthenticationService) => {
         // Arrange
-        const newUser = {
-          email: 'billy@gmail.com',
-          password: 'guess_me'
-        };
-        MockAngularFireAuth.createUser.and.returnValue('promise');
+        MockFirebaseAuth.createUserWithEmailAndPassword
+          .and.returnValue('promise');
 
         // Act
-        const result = service.createUser(newUser);
+        const result = service.createUser(mockUser);
 
         // Assert
-        expect(MockAngularFireAuth.createUser).toHaveBeenCalledWith(newUser);
+        expect(MockFirebaseAuth.createUserWithEmailAndPassword)
+          .toHaveBeenCalledWith(mockUser.email, mockUser.password);
         expect(result).toEqual('promise');
       }));
   });
 
-  describe('getAuth', () => {
-    it('should return firebase auth service', inject([AuthenticationService],
-      (service: AuthenticationService) => {
+  describe('getAuthState', () => {
+    it('should return the angularfire authState',
+      inject([AuthenticationService], (service: AuthenticationService) => {
         // Act
-        const result = service.getAuth();
+        const result = service.getAuthState();
 
         // Assert
-        expect(result).toEqual(MockAngularFireAuth);
+        expect(result).toEqual('mock-auth-state');
       }));
   });
 
   describe('login', () => {
-    it('should call login on the firebase auth service and return the ' +
-      'response', inject([AuthenticationService],
+    it('should call signInWithEmailAndPassword on the firebase auth service ' +
+      'and return the response', inject([AuthenticationService],
       (service: AuthenticationService) => {
         // Arrange
-        const userDeets = {
-          email: 'eggy@bread.com',
-          password: 'passy_p'
-        };
-        MockAngularFireAuth.login.and.returnValue('promise');
+        MockFirebaseAuth.signInWithEmailAndPassword.and.returnValue('promise');
 
         // Act
-        const result = service.login(userDeets);
+        const result = service.login(mockUser);
 
         // Assert
-        expect(MockAngularFireAuth.login).toHaveBeenCalledWith(userDeets);
+        expect(MockFirebaseAuth.signInWithEmailAndPassword)
+          .toHaveBeenCalledWith(mockUser.email, mockUser.password);
         expect(result).toEqual('promise');
       }));
   });

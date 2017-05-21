@@ -8,31 +8,21 @@ import {
   SchemaMetadata } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
-
+import { AngularFireModule } from 'angularfire2';
+import { AngularFireAuthModule } from 'angularfire2/auth';
+import { AngularFireDatabaseModule } from 'angularfire2/database';
 import { environment } from '../environments/environment';
-
 import { AppComponent } from './app.component';
 import { AuthRouteGuard } from './auth-route.guard';
 import { AppRoutingModule } from './app-routing.module';
-
 import {
   ActivatingInputComponent,
   HeaderComponent,
   LoginComponent,
   SignUpComponent } from './components';
 import { LoginPage } from './pages';
-
 import { AuthenticationService, DataService, UserService } from './services';
 
-import { AngularFireModule, AuthMethods, AuthProviders } from 'angularfire2';
-
-const firebaseConfig = {
-  apiKey: environment.firebaseConfig.apiKey,
-  authDomain: environment.firebaseConfig.authDomain,
-  databaseURL: environment.firebaseConfig.databaseURL,
-  storageBucket: environment.firebaseConfig.storageBucket,
-  messagingSenderId: environment.firebaseConfig.messagingSenderId
-};
 
 export const APP_DECLARATIONS: Array<Type<any> | any[]> = [
   AppComponent,
@@ -44,14 +34,9 @@ export const APP_DECLARATIONS: Array<Type<any> | any[]> = [
 ]
 
 export const APP_IMPORTS: Array<Type<any> | ModuleWithProviders | any[]> = [
-  AngularFireModule.initializeApp(
-    firebaseConfig,
-    {
-      // method: AuthMethods.Popup,
-      provider: AuthProviders.Password,
-      method: AuthMethods.Password
-    }
-  ),
+  AngularFireModule.initializeApp(environment.firebaseConfig),
+  AngularFireAuthModule,
+  AngularFireDatabaseModule,
   AppRoutingModule,
   BrowserModule,
   FormsModule,

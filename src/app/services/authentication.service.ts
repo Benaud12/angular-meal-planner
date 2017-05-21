@@ -1,22 +1,26 @@
 import { Injectable } from '@angular/core';
-import { AngularFireAuth, FirebaseAuthState } from 'angularfire2';
+import { AngularFireAuth } from 'angularfire2/auth';
 import { UserAuth } from '../interfaces';
+import { Observable } from 'rxjs/Rx';
+import * as firebase from 'firebase/app';
 
 @Injectable()
 export class AuthenticationService {
 
-  constructor(private backendAuth: AngularFireAuth) {
+  constructor(private angularFireAuth: AngularFireAuth) {
   }
 
-  createUser(credentials: UserAuth): firebase.Promise<FirebaseAuthState> {
-    return this.backendAuth.createUser(credentials);
+  createUser(credentials: UserAuth): firebase.Promise<firebase.User> {
+    return this.angularFireAuth.auth
+      .createUserWithEmailAndPassword(credentials.email, credentials.password);
   }
 
-  getAuth(): AngularFireAuth {
-    return this.backendAuth;
+  getAuthState(): Observable<firebase.User> {
+    return this.angularFireAuth.authState;
   }
 
-  login(credentials: UserAuth): firebase.Promise<FirebaseAuthState> {
-    return this.backendAuth.login(credentials);
+  login(credentials: UserAuth): firebase.Promise<firebase.User> {
+    return this.angularFireAuth.auth
+      .signInWithEmailAndPassword(credentials.email, credentials.password);
   }
 }

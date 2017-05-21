@@ -1,13 +1,17 @@
 import { async, fakeAsync, TestBed, inject, tick } from '@angular/core/testing';
 import { AuthenticationService, DataService } from './';
 import { UserService } from './user.service';
+import { UserUpdateDetails } from '../interfaces';
+import * as firebase from 'firebase/app';
 
 describe('UserService', () => {
   let MockAuthService: any,
     MockDataService: any,
+    mockFirebaseUser: firebase.User,
     newUser: any,
     createdUser: any,
-    userData: any;
+    userData: any,
+    userDeets: UserUpdateDetails;
 
   beforeEach(() => {
     MockAuthService = {
@@ -17,6 +21,34 @@ describe('UserService', () => {
     MockDataService = {
       createUserEntry: jasmine.createSpy('createUserEntry')
     };
+    mockFirebaseUser = {
+      displayName: null,
+      email: 'mock-user@email.com',
+      photoURL: null,
+      providerId: 'provider-id',
+      uid: 'user-id',
+      delete: () => { return Promise.resolve() },
+      emailVerified: true,
+      getToken: () => { return Promise.resolve() },
+      isAnonymous: false,
+      link: () => { return Promise.resolve() },
+      linkWithCredential: () => { return Promise.resolve() },
+      linkWithPopup: () => { return Promise.resolve() },
+      linkWithRedirect: () => { return Promise.resolve() },
+      providerData: [],
+      reauthenticate: () => { return Promise.resolve() },
+      reauthenticateWithCredential: () => { return Promise.resolve() },
+      reauthenticateWithPopup: () => { return Promise.resolve() },
+      reauthenticateWithRedirect: () => { return Promise.resolve() },
+      refreshToken: 'mock-refresh-token',
+      reload: () => { return Promise.resolve() },
+      sendEmailVerification: () => { return Promise.resolve() },
+      toJSON: () => { return 'mock-json' },
+      unlink: () => { return Promise.resolve() },
+      updateEmail: () => { return Promise.resolve() },
+      updatePassword: () => { return Promise.resolve() },
+      updateProfile: () => { return Promise.resolve() }
+    }
     TestBed.configureTestingModule({
       providers: [
         UserService,
@@ -198,6 +230,72 @@ describe('UserService', () => {
           };
           tick();
           // expect(true).toBe(true);
+          result.then(response => {
+            expect(response).toEqual(expected);
+          });
+        })));
+    });
+  });
+
+  describe('updateProfile', () => {
+    beforeEach(() => {
+      userDeets = {
+        displayName: 'BennyBee',
+        photoURL: null
+      };
+    });
+
+    it('should call updateProfile on the user correctly',
+      inject([UserService], (service: UserService) => {
+        // Arrange
+        spyOn(mockFirebaseUser, 'updateProfile')
+          .and.returnValue(Promise.resolve())
+
+        // Act
+        service.updateProfile(mockFirebaseUser, userDeets);
+
+        // Assert
+        expect(mockFirebaseUser.updateProfile).toHaveBeenCalledWith(userDeets);
+      }));
+
+    describe('successful response', () => {
+      it('should return promise resolving with profileUpdated true',
+        fakeAsync(inject([UserService], (service: UserService) => {
+          // Arrange
+          spyOn(mockFirebaseUser, 'updateProfile')
+            .and.returnValue(Promise.resolve())
+
+          // Act
+          const result = service.updateProfile(mockFirebaseUser, userDeets);
+
+          // Assert
+          const expected = {
+            uid: mockFirebaseUser.uid,
+            profileUpdated: true
+          };
+          tick();
+          result.then(response => {
+            expect(response).toEqual(expected);
+          });
+        })));
+    });
+
+    describe('failed response', () => {
+      it('should return promise resolving with profileUpdated false',
+        fakeAsync(inject([UserService], (service: UserService) => {
+          // Arrange
+          spyOn(mockFirebaseUser, 'updateProfile')
+            .and.returnValue(Promise.reject('durp'));
+
+          // Act
+          const result = service.updateProfile(mockFirebaseUser, userDeets);
+
+          // Assert
+          const expected = {
+            uid: mockFirebaseUser.uid,
+            profileUpdated: false
+          };
+          tick();
           result.then(response => {
             expect(response).toEqual(expected);
           });

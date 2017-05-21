@@ -3,7 +3,7 @@ export const environment = {
   firebaseConfig: {
     apiKey: 'some-string',
     authDomain: 'mocked-firebaseapp.com',
-    databaseURL: 'https://mocked-firebaseio.com',
+    databaseURL: 'https://mocked-app.firebaseio.com',
     storageBucket: 'mocked-bucket.appspot.com',
     messagingSenderId: 'some-id'
   }

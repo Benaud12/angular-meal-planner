@@ -1,16 +1,15 @@
 import { TestBed, async, inject } from '@angular/core/testing';
 import { AuthenticationService } from './services';
 import { AuthRouteGuard } from './auth-route.guard';
-import { FirebaseAuthState, AuthProviders } from 'angularfire2';
 import { Observable } from 'rxjs/Rx';
 
 describe('AuthRouteGuard', () => {
   let MockAuthService: any,
-    authState: any;
+    user: any;
 
   beforeEach(() => {
     MockAuthService = {
-      getAuth: jasmine.createSpy('getAuth')
+      getAuthState: jasmine.createSpy('getAuthState')
     };
     TestBed.configureTestingModule({
       providers: [
@@ -34,9 +33,10 @@ describe('AuthRouteGuard', () => {
       it('should return observable resolving to true',
         async(inject([AuthRouteGuard], (guard: AuthRouteGuard) => {
           // Arrange
-          authState = 'truthy thing';
-          MockAuthService.getAuth
-            .and.returnValue(Observable.of(authState));
+          user = {
+            uid: 'some-id'
+          };
+          MockAuthService.getAuthState.and.returnValue(Observable.of(user));
 
           // Act
           const result = guard.canActivate();
@@ -52,9 +52,8 @@ describe('AuthRouteGuard', () => {
       it('should return observable resolving to false',
         async(inject([AuthRouteGuard], (guard: AuthRouteGuard) => {
           // Arrange
-          authState = null;
-          MockAuthService.getAuth
-            .and.returnValue(Observable.of(authState));
+          user = null;
+          MockAuthService.getAuthState.and.returnValue(Observable.of(user));
 
           // Act
           const result = guard.canActivate();

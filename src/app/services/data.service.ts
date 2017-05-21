@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
-import { AngularFireDatabase } from 'angularfire2';
+import { AngularFireDatabase } from 'angularfire2/database';
 import { NewUserDatabase } from '../interfaces';
+import * as firebase from 'firebase/app';
 
 @Injectable()
 export class DataService {

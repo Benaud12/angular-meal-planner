@@ -1,5 +1,5 @@
 import { TestBed, inject } from '@angular/core/testing';
-import { AngularFireDatabase } from 'angularfire2';
+import { AngularFireDatabase } from 'angularfire2/database';
 
 import { DataService } from './data.service';
 

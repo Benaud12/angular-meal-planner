@@ -1,18 +1,4 @@
-button {
-  width: 80%;
-  margin: 0.5em 0 0.5em 0;
-  border: none;
-  border-radius: 0.4em;
-  height: 50px;
-  font-size: 1.5em;
-  text-align: center;
-}
-
-.input-container {
-  line-height: 0;
-}
-
-.input-container input {
+input {
   width: 80%;
   height: 0;
   background-color: #F5F3EE;
@@ -22,7 +8,7 @@ button {
   border-style: solid;
 }
 
-.input-container.active input {
+input.active {
   height: 50px;
   opacity: 1;
   border-width: 0 0 1px 0;
@@ -30,7 +16,7 @@ button {
   transition: all 0.5s ease;
 }
 
-.input-container.inactive input {
+input.inactive {
   height: 0;
   opacity: 0;
   border-width: 0;

@@ -2,14 +2,18 @@ import { browser, ExpectedConditions, element, by } from 'protractor';
 
 export class BrowserHelper {
   baseUrl: string = browser.baseUrl;
-  defaultTimeout: number = 5000;
+  defaultTimeout: number = 5 * 1000;
+
+  constructor() {
+    browser.ignoreSynchronization = true;
+  }
 
   defaultWait(conditionFunction) {
     return browser.wait(conditionFunction, this.defaultTimeout);
   }
 
   get(url) {
-    return browser.get(this.baseUrl + url);
+    return browser.get(`${this.baseUrl}/${url}`);
   }
 
   waitForExpectedUrl(expectedUrl) {

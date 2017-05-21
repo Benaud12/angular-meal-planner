@@ -1,7 +1,35 @@
-<mp-form-sliding-view
-  [active]="active"
-  [buttonText]="buttonText"
-  [buttonColor]="buttonColor"
-  [inputElements]="inputElements"
-  (buttonClickCallback)="signUpAction()">
-</mp-form-sliding-view>
+<form [formGroup]="signUpForm">
+  <mp-activating-input [active]="active"
+    formControlName="username"
+    [inputName]="'username'"
+    [inputPlaceholder]="'username'"
+    [inputType]="text"
+    [inputFormControl]="signUpForm.controls['username']"
+    ngDefaultControl></mp-activating-input>
+
+  <mp-activating-input [active]="active"
+    formControlName="email"
+    [inputName]="'email'"
+    [inputPlaceholder]="'email'"
+    [inputType]="'email'"
+    [inputFormControl]="signUpForm.controls['email']"
+    ngDefaultControl></mp-activating-input>
+
+  <mp-activating-input [active]="active"
+    formControlName="password"
+    [inputName]="'password'"
+    [inputPlaceholder]="'password'"
+    [inputType]="'password'"
+    [inputFormControl]="signUpForm.controls['password']"
+    ngDefaultControl></mp-activating-input>
+
+  <mp-activating-input [active]="active"
+    formControlName="password"
+    [inputName]="'password-confirm'"
+    [inputPlaceholder]="'confirm password'"
+    [inputType]="'password'"
+    [inputFormControl]="signUpForm.controls['passwordConfirm']"
+    ngDefaultControl></mp-activating-input>
+</form>
+
+<button (click)="signUpAction()">Sign Up</button>

@@ -4,22 +4,20 @@ import { By } from '@angular/platform-browser';
 import { ReactiveFormsModule } from '@angular/forms';
 import { DebugElement, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
+import { LoginComponent } from './login.component';
 import { UserService } from '../../services/user.service';
-import { SignUpComponent } from './sign-up.component';
-import { ValidationHelper } from '../../helpers/validation.helper';
 
-
-describe('SignUpComponent', () => {
-  let component: SignUpComponent,
-    fixture: ComponentFixture<SignUpComponent>,
+describe('LoginComponent', () => {
+  let component: LoginComponent,
+    fixture: ComponentFixture<LoginComponent>,
     mockUserService: any;
 
   beforeEach(async(() => {
     mockUserService = {
-      createUser: jasmine.createSpy('createUser')
-    }
+      login: jasmine.createSpy('login')
+    };
     TestBed.configureTestingModule({
-      declarations: [ SignUpComponent ],
+      declarations: [ LoginComponent ],
       imports: [ ReactiveFormsModule ],
       providers: [{
         provide: UserService,
@@ -31,7 +29,7 @@ describe('SignUpComponent', () => {
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(SignUpComponent);
+    fixture = TestBed.createComponent(LoginComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
@@ -46,95 +44,62 @@ describe('SignUpComponent', () => {
       // Assert
       const expected = {
         email: '',
-        password: '',
-        passwordConfirm: '',
-        username: ''
+        password: ''
       };
-      expect(component.signUpForm.value).toEqual(expected);
+      expect(component.loginForm.value).toEqual(expected);
     }));
   });
 
-  describe('signUpForm', () => {
+  describe('loginForm', () => {
     it('should be invalid initially', async(() => {
       // Assert
-      expect(component.signUpForm.valid).toBe(false);
+      expect(component.loginForm.valid).toBe(false);
     }));
 
     describe('validation', () => {
       beforeEach(()=> {
-        component.signUpForm.setValue({
-          email: 'mick@email.com',
-          password: 'valid_p',
-          passwordConfirm: 'valid_p',
-          username: 'Micky'
+        component.loginForm.setValue({
+          email: 'billy@email.com',
+          password: 'this_is_good'
         });
       });
 
       it('should be valid with correct values', async(() => {
         // Assert
-        expect(component.signUpForm.valid).toBe(true);
+        expect(component.loginForm.valid).toBe(true);
       }));
 
       describe('email', () => {
         it('should be required', async(() => {
           // Act
-          component.signUpForm.controls['email'].setValue('');
+          component.loginForm.controls['email'].setValue('');
 
           // Assert
-          expect(component.signUpForm.valid).toBe(false);
+          expect(component.loginForm.valid).toBe(false);
         }));
       });
 
       describe('password', () => {
         it('should be required', async(() => {
           // Act
-          component.signUpForm.controls['password'].setValue('');
+          component.loginForm.controls['password'].setValue('');
 
           // Assert
-          expect(component.signUpForm.valid).toBe(false);
+          expect(component.loginForm.valid).toBe(false);
         }));
 
         it('should be at least 6 characters long', async(() => {
           // Act
-          component.signUpForm.controls['password'].setValue('baddy');
+          component.loginForm.controls['password'].setValue('baddy');
 
           // Assert
-          expect(component.signUpForm.valid).toBe(false);
-        }));
-      });
-
-      describe('passwordConfirm', () => {
-        it('should be required', async(() => {
-          // Act
-          component.signUpForm.controls['passwordConfirm'].setValue('');
-
-          // Assert
-          expect(component.signUpForm.valid).toBe(false);
-        }));
-
-        it('should match the password', async(() => {
-          // Act
-          component.signUpForm.controls['password'].setValue('a_password');
-          component.signUpForm.controls['passwordConfirm'].setValue('differs');
-
-          // Assert
-          expect(component.signUpForm.valid).toBe(false);
-        }));
-      });
-
-      describe('username', () => {
-        it('should be required', async(() => {
-          // Act
-          component.signUpForm.controls['username'].setValue('');
-
-          // Assert
-          expect(component.signUpForm.valid).toBe(false);
+          expect(component.loginForm.valid).toBe(false);
         }));
       });
     });
   });
 
-  describe('signUpAction', () => {
+  describe('loginAction', () => {
     beforeEach(() => {
       spyOn(component.activationCallback, 'emit');
       spyOn(component, 'processForm');
@@ -147,7 +112,7 @@ describe('SignUpComponent', () => {
 
       it('should call the activationCallback.emit function', async(() => {
         // Act
-        component.signUpAction();
+        component.loginAction();
 
         // Assert
         expect(component.activationCallback.emit).toHaveBeenCalledWith();
@@ -155,7 +120,7 @@ describe('SignUpComponent', () => {
 
       it('should not call the processForm function', async(() => {
         // Act
-        component.signUpAction();
+        component.loginAction();
 
         // Assert
         expect(component.processForm).not.toHaveBeenCalled();
@@ -169,7 +134,7 @@ describe('SignUpComponent', () => {
 
       it('should call the processForm function', async(() => {
         // Act
-        component.signUpAction();
+        component.loginAction();
 
         // Assert
         expect(component.processForm).toHaveBeenCalledWith();
@@ -177,7 +142,7 @@ describe('SignUpComponent', () => {
 
       it('should not call the activationCallback.emit function', async(() => {
         // Act
-        component.signUpAction();
+        component.loginAction();
 
         // Assert
         expect(component.activationCallback.emit).not.toHaveBeenCalled();
@@ -189,11 +154,9 @@ describe('SignUpComponent', () => {
     describe('valid form', () => {
       it('should call submit', async(() => {
         // Arrange
-        component.signUpForm.setValue({
-          email: 'mick@email.com',
-          password: 'valid_p',
-          passwordConfirm: 'valid_p',
-          username: 'Micky'
+        component.loginForm.setValue({
+          email: 'billy@email.com',
+          password: 'validdy'
         });
         spyOn(component, 'submit');
 
@@ -208,11 +171,9 @@ describe('SignUpComponent', () => {
     describe('invalid form', () => {
       it('should not call submit', async(() => {
         // Arrange
-        component.signUpForm.setValue({
-          email: 'mick@email.com',
-          password: 'valid_p',
-          passwordConfirm: 'different',
-          username: 'Micky'
+        component.loginForm.setValue({
+          email: 'billy@email.com',
+          password: 'bad'
         });
         spyOn(component, 'submit');
 
@@ -227,22 +188,20 @@ describe('SignUpComponent', () => {
 
   describe('submit', () => {
     describe('valid form', () => {
-      it('should call createUser on the UserService correctly', async(() => {
+      it('should call login on the UserService correctly', async(() => {
         // Arrange
-        component.signUpForm.setValue({
-          email: 'mick@email.com',
-          password: 'valid_p',
-          passwordConfirm: 'valid_p',
-          username: 'Micky'
+        component.loginForm.setValue({
+          email: 'billy@email.com',
+          password: 'validdy'
         });
-        mockUserService.createUser.and.returnValue(Promise.resolve());
+        mockUserService.login.and.returnValue(Promise.resolve());
 
         // Act
         component.submit();
 
         // Assert
-        expect(mockUserService.createUser)
-          .toHaveBeenCalledWith(component.signUpForm.value);
+        expect(mockUserService.login)
+          .toHaveBeenCalledWith(component.loginForm.value);
       }));
     });
   });

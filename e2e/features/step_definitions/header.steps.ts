@@ -1,16 +1,18 @@
 import { HeaderElement } from '../element_objects/header.element';
-let chai = require('chai').use(require('chai-as-promised'));
-let expect = chai.expect;
 
-module.exports = function () {
+const chai = require('chai').use(require('chai-as-promised')),
+  { defineSupportCode } = require('cucumber'),
+  expect = chai.expect;
 
-  let header: HeaderElement = new HeaderElement();
+defineSupportCode(function({Then}) {
 
-  this.Then(/^I should see the header$/, () => {
+  const header: HeaderElement = new HeaderElement();
+
+  Then(/^I should see the header$/, () => {
     return expect(header.isPresent()).to.eventually.equal(true);
   });
 
-  this.Then(/^the header should display the brand name$/, () => {
+  Then(/^the header should display the brand name$/, () => {
     return expect(header.getTitle()).to.eventually.equal('Meal Planner');
   });
-}
+});

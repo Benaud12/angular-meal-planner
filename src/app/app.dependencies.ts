@@ -21,7 +21,7 @@ import {
   LoginComponent,
   SignUpComponent } from './components';
 import { LoginPage } from './pages';
-import { AuthenticationService, DataService, UserService } from './services';
+import { AuthenticationService, DataService } from './services';
 
 
 export const APP_DECLARATIONS: Array<Type<any> | any[]> = [
@@ -47,8 +47,7 @@ export const APP_IMPORTS: Array<Type<any> | ModuleWithProviders | any[]> = [
 export const APP_PROVIDERS: Provider[] = [
   AuthenticationService,
   AuthRouteGuard,
-  DataService,
-  UserService
+  DataService
 ]
 
 export const APP_BOOTSTRAP: Array<Type<any> | any[]> = [

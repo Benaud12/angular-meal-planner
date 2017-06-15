@@ -20,17 +20,18 @@ import {
   HeaderComponent,
   LoginComponent,
   SignUpComponent } from './components';
-import { LoginPage } from './pages';
+import { LoginPage, WeekPage } from './pages';
 import { AuthenticationService, DataService } from './services';
 
 
 export const APP_DECLARATIONS: Array<Type<any> | any[]> = [
+  ActivatingInputComponent,
   AppComponent,
   HeaderComponent,
   LoginComponent,
   LoginPage,
   SignUpComponent,
-  ActivatingInputComponent
+  WeekPage
 ]
 
 export const APP_IMPORTS: Array<Type<any> | ModuleWithProviders | any[]> = [

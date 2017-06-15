@@ -1,22 +1,42 @@
 import { TestBed, async, inject } from '@angular/core/testing';
+import {
+  ActivatedRouteSnapshot,
+  Router,
+  RouterStateSnapshot } from '@angular/router';
 import { AuthenticationService } from './services';
 import { AuthRouteGuard } from './auth-route.guard';
 import { Observable } from 'rxjs/Rx';
 
 describe('AuthRouteGuard', () => {
-  let MockAuthService: any,
+  let mockActivatedRoute: ActivatedRouteSnapshot,
+    mockAuthService: any,
+    mockRouterService: any,
+    mockRouterState: RouterStateSnapshot,
     user: any;
 
   beforeEach(() => {
-    MockAuthService = {
+    mockAuthService = {
       getAuthState: jasmine.createSpy('getAuthState')
+    };
+    mockRouterService = {
+      navigateByUrl: jasmine.createSpy('navigateByUrl')
+    };
+    mockActivatedRoute = new ActivatedRouteSnapshot();
+    mockRouterState = {
+      url: 'some-url',
+      toString: () => { return 'something' },
+      root: mockActivatedRoute
     };
     TestBed.configureTestingModule({
       providers: [
         AuthRouteGuard,
         {
           provide: AuthenticationService,
-          useValue: MockAuthService
+          useValue: mockAuthService
+        },
+        {
+          provide: Router,
+          useValue: mockRouterService
         }
       ]
     });
@@ -36,31 +56,34 @@ describe('AuthRouteGuard', () => {
           user = {
             uid: 'some-id'
           };
-          MockAuthService.getAuthState.and.returnValue(Observable.of(user));
+          mockAuthService.getAuthState.and.returnValue(Observable.of(user));
 
           // Act
-          const result = guard.canActivate();
+          const result = guard.canActivate(mockActivatedRoute, mockRouterState);
 
           // Assert
-          result.subscribe(auth => {
-            expect(auth).toEqual(true);
+          return result.subscribe(auth => {
+            return expect(auth).toEqual(true);
           });
         })));
     });
 
     describe('not authenticated', () => {
-      it('should return observable resolving to false',
-        async(inject([AuthRouteGuard], (guard: AuthRouteGuard) => {
+      it('should navigate router to /login and return observable resolving ' +
+        'to false', async(inject([AuthRouteGuard], (guard: AuthRouteGuard) => {
           // Arrange
-          user = null;
-          MockAuthService.getAuthState.and.returnValue(Observable.of(user));
+          mockAuthService.getAuthState.and.returnValue(Observable.of(null));
 
           // Act
-          const result = guard.canActivate();
+          const result = guard.canActivate(mockActivatedRoute, mockRouterState);
 
           // Assert
-          result.subscribe(auth => {
-            expect(auth).toEqual(false);
+          return result.subscribe(auth => {
+            return Promise.all([
+              expect(mockRouterService.navigateByUrl)
+                .toHaveBeenCalledWith('/login'),
+              expect(auth).toEqual(false)
+            ]);
           });
         })));
     });

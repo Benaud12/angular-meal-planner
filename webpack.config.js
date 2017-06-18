@@ -12,6 +12,7 @@ const { AotPlugin } = require('@ngtools/webpack');
 
 const nodeModules = path.join(process.cwd(), 'node_modules');
 const entryPoints = ["inline","polyfills","sw-register","styles","vendor","main"];
+const globCopyPatterns = ["assets","favicon.ico"];
 const minimizeCss = false;
 const baseHref = "";
 const deployUrl = "";
@@ -54,8 +55,12 @@ const postcssPlugins = function () {
 
 module.exports = (env) => {
   env = env || { env: 'dev' };
-  const mainFileName = env.mocked ? 'main.mocked' : 'main',
+  let mainFileName = 'main',
     envFileName = `environment.${env.env}`;
+  if (env.mocked) {
+    mainFileName += '.mocked';
+    globCopyPatterns.push("mocks");
+  }
 
   return {
     "devtool": "source-map",
@@ -347,10 +352,7 @@ module.exports = (env) => {
     "plugins": [
       new NoEmitOnErrorsPlugin(),
       new GlobCopyWebpackPlugin({
-        "patterns": [
-          "assets",
-          "favicon.ico"
-        ],
+        "patterns": globCopyPatterns,
         "globOptions": {
           "cwd": "/Users/michaelroger/Projects/angular2/meal-planner/src",
           "dot": true,

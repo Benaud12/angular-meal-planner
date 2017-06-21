@@ -8,11 +8,11 @@ defineSupportCode(function({Then}) {
 
   const header: HeaderElement = new HeaderElement();
 
-  Then(/^I should see the header$/, () => {
+  Then(/^I should see the header$/, function() {
     return expect(header.isPresent()).to.eventually.equal(true);
   });
 
-  Then(/^the header should display the brand name$/, () => {
+  Then(/^the header should display the brand name$/, function() {
     return expect(header.getTitle()).to.eventually.equal('Meal Planner');
   });
 });

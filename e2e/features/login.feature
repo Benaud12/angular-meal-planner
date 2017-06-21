@@ -31,3 +31,11 @@ Feature: meal-planner login page
     And I click the Sign Up button
     Then I should see the Sign Up input fields
     And I should not see the Log In input fields
+
+  Scenario: Successful new user registration
+    Given an anonymous user
+    When I open the login page
+    And I click the Sign Up button
+    And I enter my sign up details
+    And I click the Sign Up button
+    Then I should be redirected to the week page

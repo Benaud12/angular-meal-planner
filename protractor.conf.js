@@ -12,6 +12,7 @@ exports.config = {
   cucumberOpts: {
     format: 'pretty',
     require: [
+      './e2e/features/support/*.ts',
       './e2e/features/step_definitions/*.ts'
     ]
   },

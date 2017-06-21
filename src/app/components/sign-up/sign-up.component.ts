@@ -17,6 +17,8 @@ export class SignUpComponent implements OnInit {
 
   @Output('activationCallback') public activationCallback = new EventEmitter();
 
+  @Output('successfulLogin') public successfulLogin = new EventEmitter();
+
   constructor(
     private authService: AuthenticationService,
     private formBuilder: FormBuilder) {
@@ -55,7 +57,9 @@ export class SignUpComponent implements OnInit {
         user.updateProfile({
           displayName: this.signUpForm.value['username'],
           photoURL: null
-        }).catch(() => {});
+        })
+        .then(() => { this.successfulLogin.emit(); })
+        .catch(() => { this.successfulLogin.emit(); });
       })
       .catch(() => {
         this.submitError = true;

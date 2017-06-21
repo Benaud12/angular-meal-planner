@@ -247,6 +247,7 @@ describe('SignUpComponent', () => {
       mockUser = {
         updateProfile: jasmine.createSpy('updateProfile')
       };
+      spyOn(component.successfulLogin, 'emit');
     });
 
     it('should call createUser on the AuthenticationService correctly',
@@ -268,8 +269,8 @@ describe('SignUpComponent', () => {
         mockAuthService.createUser.and.returnValue(Promise.resolve(mockUser));
       });
 
-      it('should call updateProfile on the returned object correctly',
-        fakeAsync(() => {
+      it('should call updateProfile on the returned object correctly and ' +
+        'call successfulLogin callback', fakeAsync(() => {
           // Arrange
           mockUser.updateProfile.and.returnValue(Promise.resolve('done'));
 
@@ -283,6 +284,7 @@ describe('SignUpComponent', () => {
           };
           tick();
           expect(mockUser.updateProfile).toHaveBeenCalledWith(expected);
+          expect(component.successfulLogin.emit).toHaveBeenCalledWith();
         }));
 
       describe('failed updateProfile response', () => {
@@ -293,6 +295,18 @@ describe('SignUpComponent', () => {
           // Act + Assert
           expect(() => { component.submit(); }).not.toThrowError();
         }));
+
+        it('should call successfulLogin callback', fakeAsync(() => {
+          // Arrange
+          mockUser.updateProfile.and.returnValue(Promise.reject('error'));
+
+          // Act
+          component.submit();
+
+          // Assert
+          tick();
+          expect(component.successfulLogin.emit).toHaveBeenCalledWith();
+        }));
       });
     });
 
@@ -301,14 +315,16 @@ describe('SignUpComponent', () => {
         mockAuthService.createUser.and.returnValue(Promise.reject('shit!'));
       });
 
-      it('should set submitError property to true', fakeAsync(() => {
-        // Act
-        component.submit();
+      it('should set submitError property to true and not call the ' +
+        'successfulLogin callback', fakeAsync(() => {
+          // Act
+          component.submit();
 
-        // Assert
-        tick();
-        expect(component.submitError).toBe(true);
-      }));
+          // Assert
+          tick();
+          expect(component.submitError).toBe(true);
+          expect(component.successfulLogin.emit).not.toHaveBeenCalled();
+        }));
     });
   });
 });

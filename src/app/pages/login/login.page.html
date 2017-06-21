@@ -3,5 +3,8 @@
 <mp-login [active]="loginActive" (activationCallback)="loginActivation()">
 </mp-login>
 
-<mp-sign-up [active]="signUpActive" (activationCallback)="signUpActivation()">
+<mp-sign-up
+  [active]="signUpActive"
+  (activationCallback)="signUpActivation()"
+  (successfulLogin)="successfulLogin()">
 </mp-sign-up>

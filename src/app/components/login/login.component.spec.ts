@@ -1,27 +1,32 @@
 /* tslint:disable:no-unused-variable */
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import {
+  async,
+  ComponentFixture,
+  fakeAsync,
+  TestBed,
+  tick } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { ReactiveFormsModule } from '@angular/forms';
 import { DebugElement, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
+import { AuthenticationService } from '../../services';
 import { LoginComponent } from './login.component';
-import { UserService } from '../../services/user.service';
 
 describe('LoginComponent', () => {
   let component: LoginComponent,
     fixture: ComponentFixture<LoginComponent>,
-    mockUserService: any;
+    mockAuthService: any;
 
   beforeEach(async(() => {
-    mockUserService = {
+    mockAuthService = {
       login: jasmine.createSpy('login')
     };
     TestBed.configureTestingModule({
       declarations: [ LoginComponent ],
       imports: [ ReactiveFormsModule ],
       providers: [{
-        provide: UserService,
-        useValue: mockUserService
+        provide: AuthenticationService,
+        useValue: mockAuthService
       }],
       schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
     })
@@ -37,6 +42,11 @@ describe('LoginComponent', () => {
   it('should create', async(() => {
     // Assert
     expect(component).toBeTruthy();
+  }));
+
+  it('should have submitError set to false by default', async(() => {
+    // Assert
+    expect(component.submitError).toBe(false);
   }));
 
   describe('ngOnInit', () => {
@@ -187,21 +197,37 @@ describe('LoginComponent', () => {
   });
 
   describe('submit', () => {
-    describe('valid form', () => {
-      it('should call login on the UserService correctly', async(() => {
+    beforeEach(() => {
+      component.loginForm.setValue({
+        email: 'billy@email.com',
+        password: 'validdy'
+      });
+    });
+
+    it('should call login on the UserService correctly', fakeAsync(() => {
+      // Arrange
+      mockAuthService.login.and.returnValue(Promise.resolve());
+
+      // Act
+      component.submit();
+
+      // Assert
+      tick();
+      expect(mockAuthService.login)
+        .toHaveBeenCalledWith(component.loginForm.value);
+    }));
+
+    describe('failed authentication response', () => {
+      it('should set submitError to true', fakeAsync(() => {
         // Arrange
-        component.loginForm.setValue({
-          email: 'billy@email.com',
-          password: 'validdy'
-        });
-        mockUserService.login.and.returnValue(Promise.resolve());
+        mockAuthService.login.and.returnValue(Promise.reject('error'));
 
         // Act
         component.submit();
 
         // Assert
-        expect(mockUserService.login)
-          .toHaveBeenCalledWith(component.loginForm.value);
+        tick();
+        expect(component.submitError).toBe(true);
       }));
     });
   });

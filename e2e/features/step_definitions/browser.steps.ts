@@ -8,15 +8,15 @@ defineSupportCode(function({When, Then}) {
 
   const browserHelper: BrowserHelper = new BrowserHelper();
 
-  When(/^I open the app$/, () => {
+  When(/^I open the app$/, function() {
     return browserHelper.get('');
   });
 
-  When(/^I open the (.*) page$/, (url) => {
+  When(/^I open the (.*) page$/, function(url) {
     return browserHelper.get(url);
   });
 
-  Then(/^I should be redirected to the (.*) page$/, (url) => {
+  Then(/^I should be redirected to the (.*) page$/, function(url) {
     return expect(browserHelper
       .waitForExpectedUrl(url)).to.eventually.equal(true);
   });

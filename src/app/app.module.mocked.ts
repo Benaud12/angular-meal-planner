@@ -7,6 +7,10 @@ import {
   APP_SCHEMAS
 } from './app.dependencies';
 
+import { AngularFireMockedModule } from './angularfire-mocked';
+
+APP_IMPORTS.push(AngularFireMockedModule);
+
 @NgModule({
   declarations: APP_DECLARATIONS,
   imports: APP_IMPORTS,

@@ -8,10 +8,7 @@ import {
   SchemaMetadata } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
-import { AngularFireModule } from 'angularfire2';
-import { AngularFireAuthModule } from 'angularfire2/auth';
-import { AngularFireDatabaseModule } from 'angularfire2/database';
-import { environment } from '../environments/environment';
+
 import { AppComponent } from './app.component';
 import { AuthRouteGuard } from './auth-route.guard';
 import { AppRoutingModule } from './app-routing.module';
@@ -20,23 +17,21 @@ import {
   HeaderComponent,
   LoginComponent,
   SignUpComponent } from './components';
-import { LoginPage } from './pages';
-import { AuthenticationService, DataService, UserService } from './services';
+import { LoginPage, WeekPage } from './pages';
+import { AuthenticationService, DataService } from './services';
 
 
 export const APP_DECLARATIONS: Array<Type<any> | any[]> = [
+  ActivatingInputComponent,
   AppComponent,
   HeaderComponent,
   LoginComponent,
   LoginPage,
   SignUpComponent,
-  ActivatingInputComponent
+  WeekPage
 ]
 
 export const APP_IMPORTS: Array<Type<any> | ModuleWithProviders | any[]> = [
-  AngularFireModule.initializeApp(environment.firebaseConfig),
-  AngularFireAuthModule,
-  AngularFireDatabaseModule,
   AppRoutingModule,
   BrowserModule,
   FormsModule,
@@ -47,8 +42,7 @@ export const APP_IMPORTS: Array<Type<any> | ModuleWithProviders | any[]> = [
 export const APP_PROVIDERS: Provider[] = [
   AuthenticationService,
   AuthRouteGuard,
-  DataService,
-  UserService
+  DataService
 ]
 
 export const APP_BOOTSTRAP: Array<Type<any> | any[]> = [

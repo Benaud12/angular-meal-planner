@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'mp-login-page',
@@ -10,6 +11,10 @@ export class LoginPage {
   public signUpActive: boolean = false;
 
   public loginActive: boolean = false;
+
+  constructor(private router: Router) {
+
+  }
 
   public startLogin(): void {
     this.loginActive = true;
@@ -35,5 +40,9 @@ export class LoginPage {
   public signUpActivation(): void {
     this.stopLogin();
     this.startSignUp();
+  }
+
+  public successfulLogin(): void {
+    this.router.navigate(['/week']);
   }
 }

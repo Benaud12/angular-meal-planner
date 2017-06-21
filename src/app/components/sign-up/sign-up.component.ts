@@ -1,6 +1,6 @@
 import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { UserService } from '../../services/user.service';
+import { AuthenticationService } from '../../services';
 import { ValidationHelper } from '../../helpers/validation.helper';
 
 @Component({
@@ -11,14 +11,18 @@ import { ValidationHelper } from '../../helpers/validation.helper';
 export class SignUpComponent implements OnInit {
 
   public signUpForm: FormGroup;
+  public submitError: boolean;
 
   @Input() public active: boolean;
 
   @Output('activationCallback') public activationCallback = new EventEmitter();
 
+  @Output('successfulLogin') public successfulLogin = new EventEmitter();
+
   constructor(
-    private userService: UserService,
+    private authService: AuthenticationService,
     private formBuilder: FormBuilder) {
+      this.submitError = false;
   }
 
   public ngOnInit() {
@@ -48,12 +52,17 @@ export class SignUpComponent implements OnInit {
   }
 
   public submit(): void {
-    this.userService.createUser(this.signUpForm.value)
-      .then(deets => {
-        console.log('created user: ', deets);
+    this.authService.createUser(this.signUpForm.value)
+      .then(user => {
+        user.updateProfile({
+          displayName: this.signUpForm.value['username'],
+          photoURL: null
+        })
+        .then(() => { this.successfulLogin.emit(); })
+        .catch(() => { this.successfulLogin.emit(); });
       })
-      .catch(error => {
-        console.log('Error creating user: ', error);
+      .catch(() => {
+        this.submitError = true;
       });
   }
 

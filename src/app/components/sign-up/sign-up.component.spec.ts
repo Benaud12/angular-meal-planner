@@ -1,10 +1,15 @@
 /* tslint:disable:no-unused-variable */
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import {
+  async,
+  ComponentFixture,
+  fakeAsync,
+  TestBed,
+  tick } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { ReactiveFormsModule } from '@angular/forms';
 import { DebugElement, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
-import { UserService } from '../../services/user.service';
+import { AuthenticationService } from '../../services';
 import { SignUpComponent } from './sign-up.component';
 import { ValidationHelper } from '../../helpers/validation.helper';
 
@@ -12,18 +17,19 @@ import { ValidationHelper } from '../../helpers/validation.helper';
 describe('SignUpComponent', () => {
   let component: SignUpComponent,
     fixture: ComponentFixture<SignUpComponent>,
-    mockUserService: any;
+    mockAuthService: any,
+    mockUser: any;
 
   beforeEach(async(() => {
-    mockUserService = {
+    mockAuthService = {
       createUser: jasmine.createSpy('createUser')
     }
     TestBed.configureTestingModule({
       declarations: [ SignUpComponent ],
       imports: [ ReactiveFormsModule ],
       providers: [{
-        provide: UserService,
-        useValue: mockUserService
+        provide: AuthenticationService,
+        useValue: mockAuthService
       }],
       schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
     })
@@ -39,6 +45,11 @@ describe('SignUpComponent', () => {
   it('should create', async(() => {
     // Assert
     expect(component).toBeTruthy();
+  }));
+
+  it('should have submitError set to false by default', async(() => {
+    // Assert
+    expect(component.submitError).toBe(false);
   }));
 
   describe('ngOnInit', () => {
@@ -226,24 +237,94 @@ describe('SignUpComponent', () => {
   });
 
   describe('submit', () => {
-    describe('valid form', () => {
-      it('should call createUser on the UserService correctly', async(() => {
+    beforeEach(() => {
+      component.signUpForm.setValue({
+        email: 'mick@email.com',
+        password: 'valid_p',
+        passwordConfirm: 'valid_p',
+        username: 'Micky'
+      });
+      mockUser = {
+        updateProfile: jasmine.createSpy('updateProfile')
+      };
+      spyOn(component.successfulLogin, 'emit');
+    });
+
+    it('should call createUser on the AuthenticationService correctly',
+      async(() => {
         // Arrange
-        component.signUpForm.setValue({
-          email: 'mick@email.com',
-          password: 'valid_p',
-          passwordConfirm: 'valid_p',
-          username: 'Micky'
-        });
-        mockUserService.createUser.and.returnValue(Promise.resolve());
+        mockUser.updateProfile.and.returnValue(Promise.resolve('done'));
+        mockAuthService.createUser.and.returnValue(Promise.resolve(mockUser));
 
         // Act
         component.submit();
 
         // Assert
-        expect(mockUserService.createUser)
+        expect(mockAuthService.createUser)
           .toHaveBeenCalledWith(component.signUpForm.value);
       }));
+
+    describe('successful authentication response', () => {
+      beforeEach(() => {
+        mockAuthService.createUser.and.returnValue(Promise.resolve(mockUser));
+      });
+
+      it('should call updateProfile on the returned object correctly and ' +
+        'call successfulLogin callback', fakeAsync(() => {
+          // Arrange
+          mockUser.updateProfile.and.returnValue(Promise.resolve('done'));
+
+          // Act
+          component.submit();
+
+          // Assert
+          const expected = {
+            displayName: component.signUpForm.value['username'],
+            photoURL: null
+          };
+          tick();
+          expect(mockUser.updateProfile).toHaveBeenCalledWith(expected);
+          expect(component.successfulLogin.emit).toHaveBeenCalledWith();
+        }));
+
+      describe('failed updateProfile response', () => {
+        it('should not throw an error', async(() => {
+          // Arrange
+          mockUser.updateProfile.and.returnValue(Promise.reject('error'));
+
+          // Act + Assert
+          expect(() => { component.submit(); }).not.toThrowError();
+        }));
+
+        it('should call successfulLogin callback', fakeAsync(() => {
+          // Arrange
+          mockUser.updateProfile.and.returnValue(Promise.reject('error'));
+
+          // Act
+          component.submit();
+
+          // Assert
+          tick();
+          expect(component.successfulLogin.emit).toHaveBeenCalledWith();
+        }));
+      });
+    });
+
+    describe('failed authentication response', () => {
+      beforeEach(() => {
+        mockAuthService.createUser.and.returnValue(Promise.reject('shit!'));
+      });
+
+      it('should set submitError property to true and not call the ' +
+        'successfulLogin callback', fakeAsync(() => {
+          // Act
+          component.submit();
+
+          // Assert
+          tick();
+          expect(component.submitError).toBe(true);
+          expect(component.successfulLogin.emit).not.toHaveBeenCalled();
+        }));
     });
   });
 });

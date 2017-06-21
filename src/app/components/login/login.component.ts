@@ -2,7 +2,7 @@ import { Component, Input, Output, OnInit, EventEmitter } from '@angular/core';
 import {
   FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ValidationHelper } from '../../helpers/validation.helper';
-import { UserService } from '../../services/user.service';
+import { AuthenticationService } from '../../services';
 
 @Component({
   selector: 'mp-login',
@@ -11,7 +11,8 @@ import { UserService } from '../../services/user.service';
 })
 export class LoginComponent implements OnInit {
 
-  public loginForm: FormGroup
+  public loginForm: FormGroup;
+  public submitError: boolean;
 
   @Input() public active: boolean;
 
@@ -19,7 +20,8 @@ export class LoginComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    private userService: UserService) {
+    private authService: AuthenticationService) {
+      this.submitError = false;
   }
 
   public ngOnInit() {
@@ -44,12 +46,9 @@ export class LoginComponent implements OnInit {
   }
 
   public submit(): void {
-    this.userService.login(this.loginForm.value)
-      .then(deets => {
-        console.log('logged in user: ', deets);
-      })
-      .catch(error => {
-        console.log('Error logging in user: ', error);
+    this.authService.login(this.loginForm.value)
+      .catch(() => {
+        this.submitError = true;
       });
   }
 

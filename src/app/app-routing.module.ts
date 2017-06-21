@@ -1,11 +1,13 @@
-import { NgModule }             from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import { NgModule } from '@angular/core';
+import { RouterModule, Routes, Router } from '@angular/router';
+import { AuthRouteGuard } from './auth-route.guard';
 
-import { LoginPage } from './pages';
+import { LoginPage, WeekPage } from './pages';
 
 const routes: Routes = [
-  { path: '', redirectTo: '/login', pathMatch: 'full' },
-  { path: 'login',  component: LoginPage }
+  { path: '', redirectTo: '/week', pathMatch: 'full' },
+  { path: 'login',  component: LoginPage },
+  { path: 'week',  component: WeekPage, canActivate: [AuthRouteGuard] }
 ];
 
 @NgModule({
